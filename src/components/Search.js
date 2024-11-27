@@ -46,7 +46,7 @@ function Search() {
     e.preventDefault();
     setLoading(true); // Show spinner
     try {
-      const response = await axios.get('http://localhost:5001/api/search', {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/search`, {
         params: formValues // Send form data as query params
       });
       setResults(response.data);
