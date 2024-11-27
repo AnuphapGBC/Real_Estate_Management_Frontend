@@ -1,38 +1,68 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Full-screen background image with responsive padding */
+.app-container {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: flex-start;
+  background-image: url('/public/assets/real-estate-bg.jpg'); /* Correct image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  padding: 5vh 2vw; /* Adjust padding with responsive units */
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
+/* Background overlay for improved readability */
+.app-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35); /* Reduced opacity for better visuals */
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Ensure content stays on top of the background */
+.app-container > * {
+  position: relative;
+  z-index: 2;
+  width: 100%; /* Ensure full width on smaller screens */
+  max-width: 1200px; /* Limit the width on larger screens */
+  box-sizing: border-box;
+}
+
+/* Add some margin between elements for better spacing */
+.app-container form,
+.app-container h4 {
+  margin-bottom: 20px;
+}
+
+/* Add responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 2vh 2vw; /* Reduce padding for smaller screens */
+    background-position: top; /* Adjust background position */
   }
-  to {
-    transform: rotate(360deg);
+
+  .app-container h4 {
+    font-size: 1.8rem; /* Adjust font size */
+  }
+
+  .app-container form {
+    width: 100%;
+    padding: 10px; /* Ensure form takes full width */
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container h4 {
+    font-size: 1.5rem; /* Further reduce font size on very small screens */
+  }
+
+  .app-container {
+    padding: 1vh 1vw;
   }
 }
