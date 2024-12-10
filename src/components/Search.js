@@ -46,6 +46,7 @@ function Search() {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/search`, {
         params: formValues,
       });
+      console.log('Form Values:', formValues);
       setResults(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
