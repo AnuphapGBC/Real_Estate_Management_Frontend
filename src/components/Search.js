@@ -6,7 +6,7 @@ import {
   Pagination, CircularProgress, Tooltip, Box, TableSortLabel
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import './Search.css'; // Ensure the CSS file is linked correctly
+import './Search.css';
 
 function Search() {
   const [formValues, setFormValues] = React.useState({
@@ -20,7 +20,7 @@ function Search() {
     type: '',
     balcony: false,
     lanai: false,
-    location: '', // Added location field
+    location: '',
   });
 
   const [results, setResults] = React.useState([]);
@@ -28,11 +28,9 @@ function Search() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  // Sorting state
   const [sortField, setSortField] = React.useState('');
   const [sortOrder, setSortOrder] = React.useState('asc');
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormValues({
@@ -41,23 +39,21 @@ function Search() {
     });
   };
 
-  // Handle the search submission
   const handleSearch = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show spinner
+    setLoading(true);
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/search`, {
-        params: formValues // Send form data as query params
+        params: formValues,
       });
       setResults(response.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
-      setLoading(false); // Hide spinner
+      setLoading(false);
     }
   };
 
-  // Sorting function
   const handleSort = (field) => {
     const isAsc = sortField === field && sortOrder === 'asc';
     setSortOrder(isAsc ? 'desc' : 'asc');
@@ -71,18 +67,15 @@ function Search() {
     setResults(sortedData);
   };
 
-  // Handle pagination changes
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  // Handle rows per page changes
   const handleRowsPerPageChange = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setCurrentPage(1);
   };
 
-  // Slice results for current page
   const currentRows = results.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   return (
@@ -94,69 +87,27 @@ function Search() {
         <form onSubmit={handleSearch}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Project ID"
-                name="project_id"
-                value={formValues.project_id}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Project ID" name="project_id" value={formValues.project_id} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Description"
-                name="description"
-                value={formValues.description}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Description" name="description" value={formValues.description} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Floor"
-                name="floor"
-                type="number"
-                value={formValues.floor}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Floor" name="floor" type="number" value={formValues.floor} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Unit"
-                name="unit"
-                value={formValues.unit}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Unit" name="unit" value={formValues.unit} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Area"
-                name="area"
-                type="number"
-                value={formValues.area}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Area" name="area" type="number" value={formValues.area} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Location" // Added location input
-                name="location"
-                value={formValues.location}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Location" name="location" value={formValues.location} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <FormControl fullWidth>
                 <InputLabel>Type</InputLabel>
-                <Select
-                  name="type"
-                  value={formValues.type}
-                  onChange={handleInputChange}
-                >
+                <Select name="type" value={formValues.type} onChange={handleInputChange}>
                   <MenuItem value=""><em>None</em></MenuItem>
                   <MenuItem value="Studio">Studio</MenuItem>
                   <MenuItem value="1 Bedroom">1 Bedroom</MenuItem>
@@ -168,60 +119,21 @@ function Search() {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Min Price"
-                name="minPrice"
-                type="number"
-                value={formValues.minPrice}
-                onChange={handleInputChange}
-                fullWidth
-              />
-                          </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <TextField
-                label="Max Price"
-                name="maxPrice"
-                type="number"
-                value={formValues.maxPrice}
-                onChange={handleInputChange}
-                fullWidth
-              />
+              <TextField label="Min Price" name="minPrice" type="number" value={formValues.minPrice} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="balcony"
-                    checked={formValues.balcony}
-                    onChange={handleInputChange}
-                  />
-                }
-                label="Has Balcony?"
-              />
+              <TextField label="Max Price" name="maxPrice" type="number" value={formValues.maxPrice} onChange={handleInputChange} fullWidth />
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    name="lanai"
-                    checked={formValues.lanai}
-                    onChange={handleInputChange}
-                  />
-                }
-                label="Has Lanai?"
-              />
+              <FormControlLabel control={<Checkbox name="balcony" checked={formValues.balcony} onChange={handleInputChange} />} label="Has Balcony?" />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormControlLabel control={<Checkbox name="lanai" checked={formValues.lanai} onChange={handleInputChange} />} label="Has Lanai?" />
             </Grid>
           </Grid>
           <Box mt={3} display="flex" justifyContent="center">
             <Tooltip title="Click to search available units" arrow>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                startIcon={loading ? <CircularProgress size={20} /> : <SearchIcon />}
-                className="mt-4"
-                disabled={loading}
-              >
+              <Button variant="contained" color="primary" type="submit" startIcon={loading ? <CircularProgress size={20} /> : <SearchIcon />} disabled={loading}>
                 {loading ? "Searching..." : "Search"}
               </Button>
             </Tooltip>
@@ -229,77 +141,26 @@ function Search() {
         </form>
       </Paper>
 
-      {/* Results and Rows Per Page Selector */}
-      <Box mt={4} display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h6">Results</Typography>
-        <Box display="flex" alignItems="center">
-          <Typography variant="body2" mr={2}>
-            Rows per page:
-          </Typography>
-          <Select
-            value={rowsPerPage}
-            onChange={handleRowsPerPageChange}
-            style={{ width: '100px' }}
-          >
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={50}>50</MenuItem>
-            <MenuItem value={100}>100</MenuItem>
-          </Select>
-        </Box>
-      </Box>
-
-      {/* Results Table */}
-      <Box mt={3} overflow="auto">
+      <Box mt={4}>
         {results.length > 0 ? (
           <TableContainer component={Paper}>
-            <Table stickyHeader aria-label="sticky table">
+            <Table stickyHeader>
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <TableSortLabel
-                      active={sortField === 'Floor'}
-                      direction={sortField === 'Floor' ? sortOrder : 'asc'}
-                      onClick={() => handleSort('Floor')}
-                    >
-                      Floor
-                    </TableSortLabel>
+                    <TableSortLabel active={sortField === 'Floor'} direction={sortField === 'Floor' ? sortOrder : 'asc'} onClick={() => handleSort('Floor')}>Floor</TableSortLabel>
                   </TableCell>
                   <TableCell>
-                    <TableSortLabel
-                      active={sortField === 'Unit'}
-                      direction={sortField === 'Unit' ? sortOrder : 'asc'}
-                      onClick={() => handleSort('Unit')}
-                    >
-                      Unit
-                    </TableSortLabel>
+                    <TableSortLabel active={sortField === 'Unit'} direction={sortField === 'Unit' ? sortOrder : 'asc'} onClick={() => handleSort('Unit')}>Unit</TableSortLabel>
                   </TableCell>
                   <TableCell>
-                    <TableSortLabel
-                      active={sortField === 'Description'}
-                      direction={sortField === 'Description' ? sortOrder : 'asc'}
-                      onClick={() => handleSort('Description')}
-                    >
-                      Description
-                    </TableSortLabel>
+                    <TableSortLabel active={sortField === 'Description'} direction={sortField === 'Description' ? sortOrder : 'asc'} onClick={() => handleSort('Description')}>Description</TableSortLabel>
                   </TableCell>
                   <TableCell>
-                    <TableSortLabel
-                      active={sortField === 'Area'}
-                      direction={sortField === 'Area' ? sortOrder : 'asc'}
-                      onClick={() => handleSort('Area')}
-                    >
-                      Area
-                    </TableSortLabel>
+                    <TableSortLabel active={sortField === 'Area'} direction={sortField === 'Area' ? sortOrder : 'asc'} onClick={() => handleSort('Area')}>Area</TableSortLabel>
                   </TableCell>
                   <TableCell>
-                    <TableSortLabel
-                      active={sortField === 'Price'}
-                      direction={sortField === 'Price' ? sortOrder : 'asc'}
-                      onClick={() => handleSort('Price')}
-                    >
-                      Price
-                    </TableSortLabel>
+                    <TableSortLabel active={sortField === 'Price'} direction={sortField === 'Price' ? sortOrder : 'asc'} onClick={() => handleSort('Price')}>Price</TableSortLabel>
                   </TableCell>
                   <TableCell>Project ID</TableCell>
                   <TableCell>Location</TableCell>
@@ -318,7 +179,7 @@ function Search() {
                     <TableCell>{item.Area}</TableCell>
                     <TableCell>{item.Price}</TableCell>
                     <TableCell>{item.project_id}</TableCell>
-                    <TableCell>{item.location}</TableCell> {/* Add location value */}
+                    <TableCell>{item.location}</TableCell>
                     <TableCell>{item.Type}</TableCell>
                     <TableCell>{item.Balcony ? 'Yes' : 'No'}</TableCell>
                     <TableCell>{item.Lanai ? 'Yes' : 'No'}</TableCell>
@@ -329,27 +190,15 @@ function Search() {
             </Table>
           </TableContainer>
         ) : (
-          !loading && (
-            <Box mt={3} textAlign="center">
-              <Typography variant="h6">No results found</Typography>
-            </Box>
-          )
+          !loading && <Box mt={3} textAlign="center"><Typography variant="h6">No results found</Typography></Box>
         )}
       </Box>
 
-      {/* Pagination */}
       <Box mt={3} display="flex" justifyContent="center">
-        <Pagination
-          count={Math.ceil(results.length / rowsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-        />
+        <Pagination count={Math.ceil(results.length / rowsPerPage)} page={currentPage} onChange={handlePageChange} color="primary" />
       </Box>
     </div>
   );
 }
 
 export default Search;
-
-           
